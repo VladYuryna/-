@@ -1,0 +1,54 @@
+using System;
+
+class GuessNumber
+{
+    static void Main()
+    {
+        Random random = new Random();
+        string number = "";
+        for (int i = 0; i < 6; i++)
+            number += random.Next(0, 10); // випадкове 6-значне число
+
+        char[] guessed = new string('_', number.Length).ToCharArray();
+        int attempts = 5;
+        bool isGuessed = false;
+
+        Console.WriteLine("🎮 ГРА: Вгадай число!");
+        Console.WriteLine($"Число має {number.Length} цифр: {new string(guessed)}");
+
+        while (attempts > 0 && !isGuessed)
+        {
+            Console.Write("\nВведіть цифру: ");
+            char guess = Console.ReadKey().KeyChar;
+            Console.WriteLine();
+
+            bool correct = false;
+            for (int i = 0; i < number.Length; i++)
+            {
+                if (number[i] == guess)
+                {
+                    guessed[i] = guess;
+                    correct = true;
+                }
+            }
+
+            if (correct)
+            {
+                Console.WriteLine($"✅ Є така цифра! {new string(guessed)}");
+            }
+            else
+            {
+                attempts--;
+                Console.WriteLine($"❌ Такої цифри немає! Залишилось спроб: {attempts}");
+            }
+
+            if (new string(guessed) == number)
+                isGuessed = true;
+        }
+
+        if (isGuessed)
+            Console.WriteLine($"\n🎉 Вітаємо! Ви вгадали число: {number}");
+        else
+            Console.WriteLine($"\n😢 Ви програли! Загадане число: {number}");
+    }
+}
